@@ -27,3 +27,11 @@
 - 2026-11-18: Make dark-mode text white and add SVG stars plus a moon while hiding the scene sun and clouds. Worked.
 - 2026-11-18: Change the crane cable to white in dark/night mode. Worked.
 - 2026-11-18: Commit the Phase 2 controls and visual refinements. Worked.
+- 2026-11-18: Start Phase 3 with randomized staging loads, Enter pickup/setdown, pendulum wind, exact target delivery, and invalid-placement returns. Worked.
+- 2026-11-18: Center all preset loads over the staging conveyor and align pickup physics with the crane-top flip so carried loads remain attached during rotation. Worked.
+- 2026-11-18: Move the staging area to the left side and rename its label to STAGING. Worked.
+- 2026-11-18: Move staging slightly right while keeping all load positions and pickup coordinates aligned. Worked.
+- 2026-11-18: Move staging one more small step to the right and align every load center. Worked.
+- 2026-11-18: Make J always move the trolley left and L always move it right, regardless of crane facing. Worked.
+- 2026-11-18: Tier the building into upper and lower unload levels and illuminate exact target borders while drop-off is valid. Worked.
+- 2026-11-18: Commit the Phase 3 load mechanics and tiered building unload-zone updates. Worked.

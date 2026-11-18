@@ -86,6 +86,22 @@
       stroke: #ffffff;
     }
 
+    #delivery-targets rect {
+      transition: stroke 120ms ease, stroke-width 120ms ease, filter 120ms ease;
+    }
+
+    #delivery-targets rect.drop-ready {
+      stroke: #ffef57;
+      stroke-width: 7;
+      filter: drop-shadow(0 0 8px #ffd21f);
+      animation: target-pulse 700ms ease-in-out infinite alternate;
+    }
+
+    @keyframes target-pulse {
+      from { filter: drop-shadow(0 0 3px #ffd21f); }
+      to { filter: drop-shadow(0 0 12px #fff49a); }
+    }
+
     * { box-sizing: border-box; }
 
     body {
@@ -342,6 +358,16 @@
       text-align: center;
     }
 
+    .warning.bad {
+      border-color: var(--red);
+      background: color-mix(in srgb, var(--red) 12%, var(--panel));
+    }
+
+    .warning.good {
+      border-color: var(--green);
+      background: color-mix(in srgb, var(--green) 12%, var(--panel));
+    }
+
     .levels {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
@@ -419,7 +445,7 @@
           </div>
           <div class="status">
             <label>Load</label>
-            <strong>6,000 lb</strong>
+            <strong id="load-status">No load</strong>
           </div>
           <div class="status">
             <label>Radius</label>
@@ -466,20 +492,27 @@
             <path d="M0 430H1000" stroke="#a58e69" stroke-width="4"/>
 
             <g id="building" stroke="#596879" stroke-width="3">
-              <rect x="560" y="310" width="310" height="120" fill="var(--building)" />
-              <rect x="560" y="310" width="310" height="120" fill="none" />
-              <path d="M560 310H870M560 350H870M560 390H870M560 310V430M610 310V430M660 310V430M710 310V430M760 310V430M810 310V430M860 310V430M870 310V430" opacity=".7"/>
-              <rect x="575" y="318" width="70" height="72" rx="3" fill="#d8edf4" stroke="#596879"/>
-              <rect x="665" y="318" width="70" height="72" rx="3" fill="#d8edf4" stroke="#596879"/>
-              <rect x="755" y="318" width="70" height="72" rx="3" fill="#d8edf4" stroke="#596879"/>
-              <path d="M560 310L870 310M560 310L560 430" stroke="#dce4ec" stroke-width="8"/>
+              <rect x="560" y="350" width="310" height="80" fill="var(--building)" />
+              <rect x="560" y="350" width="310" height="80" fill="none" />
+              <path d="M560 350H870M560 390H870M560 350V430M610 350V430M660 350V430M710 350V430M760 350V430M810 350V430M860 350V430M870 350V430" opacity=".7"/>
+
+              <rect x="560" y="270" width="190" height="80" fill="var(--building)" />
+              <rect x="560" y="270" width="190" height="80" fill="none" />
+              <path d="M560 270H750M560 310H750M560 270V350M610 270V350M660 270V350M710 270V350M750 270V350" opacity=".7"/>
+
+              <rect x="575" y="278" width="70" height="64" rx="3" fill="#d8edf4" stroke="#596879"/>
+              <rect x="665" y="278" width="70" height="64" rx="3" fill="#d8edf4" stroke="#596879"/>
+              <rect x="575" y="358" width="70" height="64" rx="3" fill="#d8edf4" stroke="#596879"/>
+              <rect x="665" y="358" width="70" height="64" rx="3" fill="#d8edf4" stroke="#596879"/>
+              <rect x="755" y="358" width="70" height="64" rx="3" fill="#d8edf4" stroke="#596879"/>
+              <path d="M560 270L750 270M560 270L560 350M560 350L870 350M560 350L560 430" stroke="#dce4ec" stroke-width="8"/>
             </g>
 
             <g id="delivery-targets">
-              <rect x="575" y="318" width="70" height="72" rx="3" fill="#aef1b5" fill-opacity=".28" stroke="#27a36a" stroke-width="4" stroke-dasharray="9 7"/>
-              <rect x="665" y="318" width="70" height="72" rx="3" fill="#aef1b5" fill-opacity=".28" stroke="#27a36a" stroke-width="4" stroke-dasharray="9 7"/>
-              <text x="610" y="360" fill="#168252" font-size="15" text-anchor="middle" font-weight="800" stroke="none">A1</text>
-              <text x="700" y="360" fill="#168252" font-size="15" text-anchor="middle" font-weight="800" stroke="none">A2</text>
+              <rect id="target-a1" x="575" y="278" width="70" height="64" rx="3" fill="#aef1b5" fill-opacity=".28" stroke="#27a36a" stroke-width="4" stroke-dasharray="9 7"/>
+              <rect id="target-a2" x="665" y="358" width="70" height="64" rx="3" fill="#aef1b5" fill-opacity=".28" stroke="#27a36a" stroke-width="4" stroke-dasharray="9 7"/>
+              <text id="target-label-a1" x="610" y="315" fill="#168252" font-size="15" text-anchor="middle" font-weight="800" stroke="none">A1</text>
+              <text id="target-label-a2" x="700" y="395" fill="#168252" font-size="15" text-anchor="middle" font-weight="800" stroke="none">A2</text>
             </g>
 
             <g id="tower-crane" stroke="#29384a" stroke-linejoin="round">
@@ -518,12 +551,24 @@
             </g>
 
             <g id="staging">
-              <path d="M285 390H390V430H285Z" fill="#7b8d9c" stroke="#596879" stroke-width="4"/>
-              <rect x="292" y="356" width="65" height="34" rx="4" fill="#e4edf4" stroke="#596879" stroke-width="4"/>
-              <text x="324" y="378" fill="#26384b" font-size="13" text-anchor="middle" font-weight="900" stroke="none">4,000 lb</text>
-              <rect x="364" y="356" width="65" height="34" rx="4" fill="#e4edf4" stroke="#596879" stroke-width="4"/>
-              <text x="396" y="378" fill="#26384b" font-size="13" text-anchor="middle" font-weight="900" stroke="none">8,000 lb</text>
-              <text x="360" y="452" fill="#26384b" font-size="13" text-anchor="middle" font-weight="900" stroke="none">STAGING / CONVEYOR</text>
+              <path d="M110 390H390V430H110Z" fill="#7b8d9c" stroke="#596879" stroke-width="4"/>
+              <g id="staged-load-0" data-weight="4000" transform="translate(117 356)">
+                <rect width="58" height="34" rx="4" fill="#e4edf4" stroke="#596879" stroke-width="4"/>
+                <text x="29" y="22" fill="#26384b" font-size="12" text-anchor="middle" font-weight="900" stroke="none">4,000 lb</text>
+              </g>
+              <g id="staged-load-1" data-weight="6000" transform="translate(180 356)">
+                <rect width="58" height="34" rx="4" fill="#e4edf4" stroke="#596879" stroke-width="4"/>
+                <text x="29" y="22" fill="#26384b" font-size="12" text-anchor="middle" font-weight="900" stroke="none">6,000 lb</text>
+              </g>
+              <g id="staged-load-2" data-weight="8000" transform="translate(243 356)">
+                <rect width="58" height="34" rx="4" fill="#e4edf4" stroke="#596879" stroke-width="4"/>
+                <text x="29" y="22" fill="#26384b" font-size="12" text-anchor="middle" font-weight="900" stroke="none">8,000 lb</text>
+              </g>
+              <g id="staged-load-3" data-weight="10000" transform="translate(306 356)">
+                <rect width="58" height="34" rx="4" fill="#e4edf4" stroke="#596879" stroke-width="4"/>
+                <text x="29" y="22" fill="#26384b" font-size="12" text-anchor="middle" font-weight="900" stroke="none">10,000 lb</text>
+              </g>
+              <text x="250" y="452" fill="#26384b" font-size="13" text-anchor="middle" font-weight="900" stroke="none">STAGING</text>
             </g>
           </svg>
         </div>
@@ -586,7 +631,7 @@
 
         <section class="panel" aria-label="Level and crane status">
           <h2>Level progress</h2>
-          <p class="warning"><strong>Crane safe</strong><br>Wind: light from the east</p>
+          <p class="warning" id="game-message"><strong>Crane safe</strong><br>Wind: light from the east</p>
           <div class="levels" aria-label="Five level progress">
             <span class="level-dot active"></span>
             <span class="level-dot"></span>
@@ -623,7 +668,9 @@
       hookY: 326,
       jibFacing: 1,
       turnAngle: 0,
-      turnTarget: 0
+      turnTarget: 0,
+      carrying: null,
+      windPhase: 0
     };
 
     const chart = [
@@ -633,6 +680,16 @@
       { radius: 125, capacity: 7000 },
       { radius: 150, capacity: 5500 }
     ];
+
+    const stagedWeights = [4000, 6000, 8000, 10000];
+    const stagedPositions = [146, 209, 272, 335];
+    const stagedLoads = stagedWeights.map((weight, index) => ({
+      id: `staged-load-${index}`,
+      weight,
+      startX: stagedPositions[index],
+      available: true
+    }));
+    const deliveredTargets = new Set();
 
     const radiusStatus = document.querySelector("#radius-status");
     const chartRadius = document.querySelector("#chart-radius");
@@ -647,6 +704,8 @@
     const loadLines = document.querySelector("#load-lines");
     const loadLabel = document.querySelector("#load-label");
     const craneTop = document.querySelector("#crane-top");
+    const loadStatus = document.querySelector("#load-status");
+    const gameMessage = document.querySelector("#game-message");
 
     const activeKeys = new Map();
     let animationFrame = null;
@@ -660,32 +719,73 @@
       element.setAttribute(attribute, String(value));
     }
 
+    function showGameMessage(title, detail, tone = "") {
+      gameMessage.className = `warning${tone ? ` ${tone}` : ""}`;
+      gameMessage.innerHTML = `<strong>${title}</strong><br>${detail}`;
+    }
+
+    function resetStagedLoad(load) {
+      load.available = true;
+      const element = document.querySelector(`#${load.id}`);
+      if (element) element.style.display = "";
+    }
+
+    function randomizeStaging() {
+      const shuffled = [...stagedWeights];
+      for (let index = shuffled.length - 1; index > 0; index--) {
+        const swapIndex = Math.floor(Math.random() * (index + 1));
+        [shuffled[index], shuffled[swapIndex]] =
+          [shuffled[swapIndex], shuffled[index]];
+      }
+      stagedLoads.forEach((load, index) => {
+        load.weight = shuffled[index];
+        const element = document.querySelector(`#${load.id}`);
+        if (element) {
+          element.dataset.weight = String(load.weight);
+          const label = element.querySelector("text");
+          if (label) label.textContent = `${load.weight.toLocaleString()} lb`;
+          resetStagedLoad(load);
+        }
+      });
+    }
+
+    function updateDeliveredTarget(targetId, weight) {
+      const target = document.querySelector(`#${targetId}`);
+      if (!target) return;
+      target.setAttribute("fill", "#67d2a5");
+      target.setAttribute("fill-opacity", ".75");
+      target.dataset.deliveredWeight = String(weight);
+    }
+
     function updateCrane() {
       const trolleyBase = 613;
       craneState.trolleyX = trolleyBase + (craneState.radius - 75) * 2.84;
 
       const trolleyWidth = 46;
       const trolleyCenter = craneState.trolleyX;
+      craneState.windPhase += 0.025;
+      const windSwing = Math.sin(craneState.windPhase) * 18;
+      const cableCenter = trolleyCenter + windSwing;
       setSvgAttribute(trolleyBody, "x", trolleyCenter - trolleyWidth / 2);
       setSvgAttribute(wheelA, "cx", trolleyCenter - 12);
       setSvgAttribute(wheelB, "cx", trolleyCenter + 12);
 
       setSvgAttribute(craneCable, "x1", trolleyCenter);
-      setSvgAttribute(craneCable, "x2", trolleyCenter);
+      setSvgAttribute(craneCable, "x2", cableCenter);
       setSvgAttribute(craneCable, "y2", craneState.hookY);
 
-      setSvgAttribute(craneHook, "x", trolleyCenter - 11);
+      setSvgAttribute(craneHook, "x", cableCenter - 11);
       setSvgAttribute(craneHook, "y", craneState.hookY - 4);
 
       const loadTop = craneState.hookY + 14;
-      setSvgAttribute(loadBody, "x", trolleyCenter - 35);
+      setSvgAttribute(loadBody, "x", cableCenter - 35);
       setSvgAttribute(loadBody, "y", loadTop);
       setSvgAttribute(loadLines, "d",
-        `M${trolleyCenter - 35} ${loadTop + 16}H${trolleyCenter + 35}` +
-        `M${trolleyCenter - 35} ${loadTop + 36}H${trolleyCenter + 35}` +
-        `M${trolleyCenter} ${loadTop}V${loadTop + 52}`
+        `M${cableCenter - 35} ${loadTop + 16}H${cableCenter + 35}` +
+        `M${cableCenter - 35} ${loadTop + 36}H${cableCenter + 35}` +
+        `M${cableCenter} ${loadTop}V${loadTop + 52}`
       );
-      setSvgAttribute(loadLabel, "x", trolleyCenter);
+      setSvgAttribute(loadLabel, "x", cableCenter);
       setSvgAttribute(loadLabel, "y", loadTop + 92);
       loadLabel.style.transformBox = "fill-box";
       loadLabel.style.transformOrigin = "center";
@@ -701,11 +801,43 @@
         `translate(${pivotX} ${pivotY}) scale(${scaleX} 1) translate(${-pivotX} ${-pivotY})`
       );
 
+      const carriedWeight = craneState.carrying
+        ? craneState.carrying.weight
+        : null;
+      [loadBody, loadLines, loadLabel].forEach((element) => {
+        element.style.display = carriedWeight ? "" : "none";
+      });
+      loadStatus.textContent = carriedWeight
+        ? `${carriedWeight.toLocaleString()} lb`
+        : "No load";
+      if (carriedWeight) loadLabel.textContent = `${carriedWeight.toLocaleString()} lb`;
+
+      if (carriedWeight) {
+        const hookCenter = getHookCenter();
+        const upperReady =
+          !deliveredTargets.has("target-a1") &&
+          Math.abs(hookCenter - 610) <= 38 &&
+          craneState.hookY >= 278 &&
+          craneState.hookY <= 342;
+        const lowerReady =
+          !deliveredTargets.has("target-a2") &&
+          Math.abs(hookCenter - 700) <= 38 &&
+          craneState.hookY >= 358 &&
+          craneState.hookY <= 422;
+        document.querySelector("#target-a1")?.classList.toggle("drop-ready", upperReady);
+        document.querySelector("#target-a2")?.classList.toggle("drop-ready", lowerReady);
+      } else {
+        document.querySelector("#target-a1")?.classList.remove("drop-ready");
+        document.querySelector("#target-a2")?.classList.remove("drop-ready");
+      }
+
       const row = currentChartRow();
       radiusStatus.textContent = `${Math.round(craneState.radius)} ft`;
       chartRadius.textContent = `Current: ${Math.round(craneState.radius)} ft`;
       chartCapacity.textContent = `${row.capacity.toLocaleString()} lb`;
-      capacityStatus.textContent = `${Math.round((6000 / row.capacity) * 100)}% safe`;
+      capacityStatus.textContent = carriedWeight
+        ? `${Math.round((carriedWeight / row.capacity) * 100)}% safe`
+        : "No load";
       capacityStatus.className = currentChartRow().capacity === 5500 ? "warn" : "";
 
       document.querySelectorAll(".load-table tbody tr").forEach((tableRow) => {
@@ -719,10 +851,14 @@
     function applyAction(action, amount) {
       switch (action) {
         case "trolley-in":
-          craneState.radius = Math.max(50, craneState.radius - amount);
+          craneState.radius = craneState.jibFacing < 0
+            ? Math.min(150, craneState.radius + amount)
+            : Math.max(50, craneState.radius - amount);
           break;
         case "trolley-out":
-          craneState.radius = Math.min(150, craneState.radius + amount);
+          craneState.radius = craneState.jibFacing < 0
+            ? Math.max(50, craneState.radius - amount)
+            : Math.min(150, craneState.radius + amount);
           break;
         case "hook-up":
           craneState.hookY = Math.max(250, craneState.hookY - amount * 2);
@@ -774,6 +910,10 @@
     }
 
     function startAction(action) {
+      if (action === "pick-set") {
+        handlePickSet();
+        return;
+      }
       activeKeys.set(action, true);
       applyAction(action, 1);
       if (!animationFrame) animationFrame = requestAnimationFrame(movementLoop);
@@ -781,6 +921,76 @@
 
     function stopAction(action) {
       activeKeys.delete(action);
+    }
+
+    function getHookCenter() {
+      const trolleyCenter = 613 + (craneState.radius - 75) * 2.84;
+      const windSwing = Math.sin(craneState.windPhase) * 18;
+      const rawHookCenter = trolleyCenter + windSwing;
+      const pivotX = 500;
+      const radians = craneState.turnAngle * Math.PI / 180;
+      const scaleX = Math.cos(radians);
+      return pivotX + (rawHookCenter - pivotX) * scaleX;
+    }
+
+    function handlePickSet() {
+      const hookCenter = getHookCenter();
+
+      if (!craneState.carrying) {
+        if (craneState.hookY < 300) {
+          showGameMessage("Hook too high", "Lower the hook to staging height.", "bad");
+          return;
+        }
+
+        const load = stagedLoads.find((item) =>
+          item.available &&
+          Math.abs(hookCenter - item.startX) <= 36 &&
+          craneState.hookY >= 300
+        );
+
+        if (!load) {
+          showGameMessage("No load under hook", "Move the hook over a staging load.", "bad");
+          return;
+        }
+
+        craneState.carrying = load;
+        load.available = false;
+        const element = document.querySelector(`#${load.id}`);
+        if (element) element.style.display = "none";
+        showGameMessage("Load attached", `${load.weight.toLocaleString()} lb suspended.`, "good");
+        updateCrane();
+        return;
+      }
+
+      const load = craneState.carrying;
+      const targets = [
+        { id: "target-a1", labelId: "A1", centerX: 610, yMin: 278, yMax: 342 },
+        { id: "target-a2", labelId: "A2", centerX: 700, yMin: 358, yMax: 422 }
+      ];
+      const target = targets.find((item) =>
+        !deliveredTargets.has(item.id) &&
+        Math.abs(hookCenter - item.centerX) <= 38 &&
+        craneState.hookY >= item.yMin &&
+        craneState.hookY <= item.yMax
+      );
+
+      if (!target) {
+        craneState.carrying = null;
+        resetStagedLoad(load);
+        showGameMessage("Load returned", "Placement missed or target was wrong.", "bad");
+        updateCrane();
+        return;
+      }
+
+      deliveredTargets.add(target.id);
+      updateDeliveredTarget(target.id, load.weight);
+      const targetLabel = document.querySelector(
+        target.labelId === "A1" ? "#target-label-a1" : "#target-label-a2"
+      );
+      if (targetLabel) targetLabel.textContent = `${load.weight.toLocaleString()} lb`;
+      craneState.carrying = null;
+      showGameMessage("Load delivered", `${load.weight.toLocaleString()} lb placed at ${target.labelId}.`, "good");
+      updateCrane();
     }
 
     const keyActions = {
@@ -821,6 +1031,7 @@
       const action = keyActions[event.key] || keyActions[event.key.toLowerCase()];
       if (!action) return;
       event.preventDefault();
+      if (event.repeat && action === "pick-set") return;
       if (!activeKeys.has(action)) {
         const button = document.querySelector(`[data-action="${action}"]`);
         button?.classList.add("pressed");
@@ -837,7 +1048,9 @@
       stopAction(action);
     });
 
+    randomizeStaging();
     updateCrane();
+    window.setInterval(() => updateCrane(), 50);
   </script>
 </body>
 </html>
