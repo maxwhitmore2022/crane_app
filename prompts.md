@@ -13,3 +13,17 @@
 - 2026-11-18: Commit the persistent control-panel and mobile touch-control specification updates. Worked.
 - 2026-11-18: Add the five-stage building plan under a new `## Build stages` section in `spec.md`. Worked.
 - 2026-11-18: Commit the five-stage build plan and specification updates. Worked.
+- 2026-11-18: Build only Stage 1: create the responsive single-page HTML/SVG layout mockup with status, load chart, crane scene, controls, and light/dark theme toggle. Worked.
+- 2026-11-18: Make the tower crane taller and center it over the building footprint. Worked.
+- 2026-11-18: Refine the crane into a lattice tower crane shape and move the building right and staging beneath the crane's left side. Worked.
+- 2026-11-18: Move the building farther right and remove the crane cab. Worked.
+- 2026-11-18: Start Phase 2 by adding crane movement controls, live radius status, keyboard input, and press-and-hold touch movement. Worked.
+- 2026-11-18: Fix arrow-key crane rotation so only the jib/trolley/cable/load assembly rotates around the top of the fixed tower. Worked.
+- 2026-11-18: Replace the instant Y-axis flip with an animated turn that visually collapses and mirrors the crane top around the tower. Worked.
+- 2026-11-18: Anchor the animated Y-axis crane-top turn at the tower attachment point (500, 95). Worked.
+- 2026-11-18: Keep the suspended load weight label upright and readable while the crane top flips. Worked.
+- 2026-11-18: Switch the Pick Up / Set Down control label and keyboard binding from Space to Enter. Worked.
+- 2026-11-18: Change the theme toggle icon from sun to moon in dark mode and update its accessible label. Worked.
+- 2026-11-18: Make dark-mode text white and add SVG stars plus a moon while hiding the scene sun and clouds. Worked.
+- 2026-11-18: Change the crane cable to white in dark/night mode. Worked.
+- 2026-11-18: Commit the Phase 2 controls and visual refinements. Worked.
