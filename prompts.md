@@ -46,5 +46,7 @@
 - 2026-11-18: Reduce each level to exactly two staged loads and two unload positions before advancing. Worked.
 - 2026-11-18: Align the spec and capacity-validation staged-load list with the two-load level format. Worked.
 - 2026-11-18: Commit the two-load, two-target level requirement and application updates. Worked.
+- 2026-11-18: Restore four staging-area load options while keeping exactly two unload positions and two required deliveries. Worked.
+- 2026-11-18: Commit the final staging-options adjustment. Worked.
 - 2026-11-18: Fix the final page by removing a duplicate levelTitle JavaScript declaration that prevented Phase 5 from running. Worked.
 - 2026-11-18: Commit the Phase 4 timer, scoring, load-chart safety, and level progression implementation. Worked.

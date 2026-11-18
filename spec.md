@@ -75,7 +75,7 @@ The game has a light mode and a dark mode. It includes a visible theme toggle so
 
 When the crane falls, show a huge, dramatic explosion with expanding fire and smoke effects, debris, and screen shake. When the player passes a level, celebrate with confetti that bursts across the screen.
 
-Two preset loads, selected from 4,000 and 6,000 lb weights, appear at the staging area each level. Delivered loads remain at their target positions. Undelivered loads or loads returned after an invalid placement use the staging conveyor.
+Four preset load options—4,000, 6,000, 8,000, and 10,000 lb—appear at the staging area each level. The player chooses any two loads to deliver to the two marked unloading positions before advancing. Delivered loads remain at their target positions. Undelivered loads or loads returned after an invalid placement use the staging conveyor.
 
 Wind varies by level and makes a suspended load swing like a pendulum in the horizontal plane.
 Loads are picked up by positioning the hook above a staging load and pressing Enter. A load is delivered by precisely positioning it within the matching labeled location on the building outline and pressing Enter.
@@ -90,7 +90,7 @@ Before each level begins, show a start screen with the level number and Start Le
 
 When all two staged loads in a level have been delivered to matching positions, show confetti and a between-level confirmation screen. The player must press Continue / Next Level to advance; the app does not advance automatically.
 
-Each level must contain exactly two staged loads and exactly two marked unload positions. Retry and reset actions restore the level's staged loads, unload positions, 3-minute timer, and crane position.
+Each level must provide four staged-load options and exactly two marked unload positions. The player must deliver two loads to complete the level. Retry and reset actions restore the level's staged loads, unload positions, 3-minute timer, and crane position.
 
 ## Validation
 Use the conservative next-larger-radius rule for all radii:
