@@ -40,5 +40,7 @@
 - 2026-11-18: Plan and begin the control-flow refinement: WASD controls, equal load and unload counts, start/instruction overlays, and confirmed next-level progression. Worked.
 - 2026-11-18: Implement WASD controls, instruction/start/next-level overlays, movement and timer gating, and four matching loads and unload positions per level. Worked.
 - 2026-11-18: Commit the WASD controls and start, instruction, and next-level flow refinement. Worked.
+- 2026-11-18: Validate the conservative capacity calculations at 62 ft, 125 ft, and 138 ft, document warning/tip boundaries, and add staged-load chart checks. Worked.
+- 2026-11-18: Commit the completed capacity validation work. Worked.
 - 2026-11-18: Fix the final page by removing a duplicate levelTitle JavaScript declaration that prevented Phase 5 from running. Worked.
 - 2026-11-18: Commit the Phase 4 timer, scoring, load-chart safety, and level progression implementation. Worked.
