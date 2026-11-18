@@ -11,3 +11,5 @@
 - 2026-11-18: Require the keyboard controls to remain visible on screen at all times during play. Worked.
 - 2026-11-18: Add persistent mobile touch buttons for trolley, hook, jib swing, and pickup/setdown controls. Worked.
 - 2026-11-18: Commit the persistent control-panel and mobile touch-control specification updates. Worked.
+- 2026-11-18: Add the five-stage building plan under a new `## Build stages` section in `spec.md`. Worked.
+- 2026-11-18: Commit the five-stage build plan and specification updates. Worked.

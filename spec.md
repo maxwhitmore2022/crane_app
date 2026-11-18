@@ -103,5 +103,32 @@ Also test delivery scoring and both pickup/setdown states:
 - Check that the computer-controlled second crane moves predictably and collides are detected.
 - Warning and tip calculations update immediately as radius or suspended-load weight changes.
 
+## Build stages
+
+### Stage 1: Page-layout mockup
+Build the static, responsive HTML and SVG layout for the crane scene, construction building, staging area, status panel, complete load table, timer, score, active level, theme toggle, persistent keyboard controls, and mobile touch controls.
+
+**Check:** The full chart and controls remain visible, the scene fits desktop and mobile screens, both themes have readable contrast, and the page remains a single-file app.
+
+### Stage 2: Crane movement and mobile controls
+Add keyboard and press-and-hold touch handlers for trolley, hook, and jib movement. Enforce the 50–150 ft hard radius limits and display the live hook position and radius.
+
+**Check:** J/L, I/K, the left/right arrow keys, and pickup/setdown work consistently. Touch controls mirror every keyboard action, press states are clear, continuous movement works, and movement stops at radius limits.
+
+### Stage 3: Loads, wind, pickup, and delivery
+Implement randomized loads weighing 4,000, 6,000, 8,000, or 10,000 lb. Add the staging conveyor, pendulum-style wind, Space/pickup action, precise target matching, invalid-placement returns, and delivered-load locking.
+
+**Check:** Loads attach and detach correctly; wind visibly affects suspended loads; wrong targets return loads to staging; only exact matching positions accept loads; and delivered loads remain fixed in place.
+
+### Stage 4: Chart safety, scoring, timer, and levels
+Implement conservative next-larger-radius capacity lookup, live chart marks, exact 90% warning, 100% tip-over, 1-point-per-pound scoring, reset-per-level 3-minute timers, and five building layouts.
+
+**Check:** 62 ft uses 13,000 lb with warning at 11,700 lb, 125 ft uses 7,000 lb with warning at 6,300 lb, and 138 ft uses 5,500 lb with warning at 4,950 lb. Verify 89.9%, 90%, 99.9%, and 100% boundaries, timer behavior, and level completion.
+
+### Stage 5: Effects, second crane, and final polish
+Add the predictable computer-controlled second crane and collision detection, huge tip-over explosion with debris and screen shake, automatic level reset after tipping, confetti after level completion, retry handling, and final responsive and theme polish.
+
+**Check:** The second crane follows a predictable path and collisions are detected. Tip-over triggers at capacity and resets the level with a dramatic effect. Filling every marked position triggers confetti and advances the level. Both themes and all five layouts are playable.
+
 ## Out of scope
 This is a fictional game example, not a source of legitimate crane specifications or lifting instructions.
