@@ -4,13 +4,13 @@ Players operate a tower crane in a side view, moving loads from a staging area t
 
 ## Inputs
 ### Keyboard controls
-- **J:** move the trolley inward
-- **L:** move the trolley outward
-- **I:** raise the hook
-- **K:** lower the hook
+- **A:** move the trolley left on screen
+- **D:** move the trolley right on screen
+- **W:** raise the hook
+- **S:** lower the hook
 - **Left Arrow:** swing the jib left
 - **Right Arrow:** swing the jib right
-- **Space:** pick up a load or set a carried load on a matching building position
+- **Enter:** pick up a load or set a carried load on a matching building position
 
 The keyboard controls must remain visible on screen at all times during play, in a persistent control panel or footer that is not hidden behind menus or overlays.
 
@@ -78,11 +78,19 @@ When the crane falls, show a huge, dramatic explosion with expanding fire and sm
 Preset load weights of 4,000, 6,000, 8,000, and 10,000 lb appear in a randomized mix at the staging area. Delivered loads remain at their target positions. Undelivered loads or loads returned after an invalid placement use the staging conveyor.
 
 Wind varies by level and makes a suspended load swing like a pendulum in the horizontal plane.
-Loads are picked up by positioning the hook above a staging load and pressing Space. A load is delivered by precisely positioning it within the matching labeled location on the building outline and pressing Space.
+Loads are picked up by positioning the hook above a staging load and pressing Enter. A load is delivered by precisely positioning it within the matching labeled location on the building outline and pressing Enter.
 
-The player must deliver a load to every marked position to pass a level. Pressing Space at an incorrect position or dropping a load outside a marked position returns the load to the staging conveyor. The level timer continues until every position is filled or time expires.
+The player must deliver a load to every marked position to pass a level. Pressing Enter at an incorrect position or dropping a load outside a marked position returns the load to the staging conveyor. The level timer continues until every position is filled or time expires.
 
 A level is passed after every marked position is filled. The app stops play briefly, shows confetti across the screen, and advances to the next level layout.
+
+At the first launch, show an instructions popup explaining the WASD, arrow, and Enter controls, the load-chart warning and tip limits, and the goal of delivering every load. The player must close this popup and press Start Level before the first timer begins.
+
+Before each level begins, show a start screen with the level number and Start Level button. Crane movement and the timer remain paused until Start Level is pressed.
+
+When all staged loads in a level have been delivered to matching positions, show confetti and a between-level confirmation screen. The player must press Continue / Next Level to advance; the app does not advance automatically.
+
+Each level must contain an equal number of staged loads and marked unload positions. Retry and reset actions restore the level's staged loads, unload positions, 3-minute timer, and crane position.
 
 ## Validation
 Use the conservative next-larger-radius rule for all radii:
@@ -111,12 +119,12 @@ Build the static, responsive HTML and SVG layout for the crane scene, constructi
 **Check:** The full chart and controls remain visible, the scene fits desktop and mobile screens, both themes have readable contrast, and the page remains a single-file app.
 
 ### Stage 2: Crane movement and mobile controls
-Add keyboard and press-and-hold touch handlers for trolley, hook, and jib movement. Enforce the 50–150 ft hard radius limits and display the live hook position and radius.
+Add WASD and press-and-hold touch handlers for trolley, hook, and jib movement. A/D move screen-left/screen-right, W/S raise/lower the hook, arrow keys swing the jib, and Enter picks up or sets down. Enforce the 50–150 ft hard radius limits and display the live hook position and radius.
 
-**Check:** J/L, I/K, the left/right arrow keys, and pickup/setdown work consistently. Touch controls mirror every keyboard action, press states are clear, continuous movement works, and movement stops at radius limits.
+**Check:** A/D, W/S, the left/right arrow keys, and Enter work consistently. Touch controls mirror every keyboard action, press states are clear, continuous movement works, and movement stops at radius limits.
 
 ### Stage 3: Loads, wind, pickup, and delivery
-Implement randomized loads weighing 4,000, 6,000, 8,000, or 10,000 lb. Add the staging conveyor, pendulum-style wind, Space/pickup action, precise target matching, invalid-placement returns, and delivered-load locking.
+Implement randomized loads weighing 4,000, 6,000, 8,000, or 10,000 lb. Add the staging conveyor, pendulum-style wind, Enter pickup/setdown action, precise target matching, invalid-placement returns, and delivered-load locking.
 
 **Check:** Loads attach and detach correctly; wind visibly affects suspended loads; wrong targets return loads to staging; only exact matching positions accept loads; and delivered loads remain fixed in place.
 
@@ -128,7 +136,7 @@ Implement conservative next-larger-radius capacity lookup, live chart marks, exa
 ### Stage 5: Effects, second crane, and final polish
 Add the predictable computer-controlled second crane and collision detection, huge tip-over explosion with debris and screen shake, automatic level reset after tipping, confetti after level completion, retry handling, and final responsive and theme polish.
 
-**Check:** The second crane follows a predictable path and collisions are detected. Tip-over triggers at capacity and resets the level with a dramatic effect. Filling every marked position triggers confetti and advances the level. Both themes and all five layouts are playable.
+**Check:** The second crane follows a predictable path and collisions are detected. Tip-over triggers at capacity and resets the level with a dramatic effect. Filling every marked position triggers confetti and waits for the player to confirm continuing to the next level. Both themes and all five layouts are playable.
 
 ## Out of scope
 This is a fictional game example, not a source of legitimate crane specifications or lifting instructions.

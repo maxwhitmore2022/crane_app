@@ -383,6 +383,153 @@
 
     .level-dot.active { background: var(--yellow-dark); }
 
+    .effect-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .game-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      display: none;
+      place-items: center;
+      background: rgb(10 15 25 / 68%);
+      backdrop-filter: blur(4px);
+    }
+
+    .game-overlay.visible {
+      display: grid;
+    }
+
+    .overlay-card {
+      width: min(420px, calc(100vw - 32px));
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--panel);
+      color: var(--ink);
+      padding: 24px;
+      text-align: center;
+      box-shadow: 0 20px 70px rgb(0 0 0 / 35%);
+    }
+
+    .overlay-card h2 {
+      margin: 0 0 8px;
+      font-size: clamp(1.35rem, 5vw, 2rem);
+    }
+
+    .overlay-card p {
+      color: var(--muted);
+      margin: 0 0 18px;
+    }
+
+    .overlay-card button {
+      border: 0;
+      border-radius: 9px;
+      background: var(--yellow);
+      color: #3f3400;
+      padding: 12px 18px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .overlay-actions {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .overlay-actions button.secondary {
+      background: var(--panel-2);
+      color: var(--ink);
+      border: 1px solid var(--line);
+    }
+
+    .explosion {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #fff4a8;
+      box-shadow:
+        0 0 20px 12px #ffbf31,
+        0 0 55px 35px #ff6b21,
+        0 0 110px 75px rgb(194 45 22 / 72%);
+      animation: explosion-burst 1.7s ease-out forwards;
+    }
+
+    .explosion::before,
+    .explosion::after {
+      content: "";
+      position: absolute;
+      inset: -90px;
+      border: 18px solid rgb(58 42 40 / 75%);
+      border-radius: 50%;
+      animation: smoke-ring 1.9s ease-out forwards;
+    }
+
+    .explosion::after {
+      inset: -145px;
+      border-width: 12px;
+      opacity: .5;
+    }
+
+    .debris {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: var(--yellow);
+      animation: debris-flight 1.5s cubic-bezier(.2,.7,.3,1) forwards;
+    }
+
+    .confetti {
+      position: absolute;
+      top: -20px;
+      width: 10px;
+      height: 16px;
+      border-radius: 2px;
+      animation: confetti-fall var(--fall-time) linear forwards;
+    }
+
+    .scene.shake {
+      animation: scene-shake 420ms steps(2, end);
+    }
+
+    @keyframes explosion-burst {
+      0% { transform: scale(.15); opacity: 1; }
+      35% { transform: scale(5.5); opacity: 1; }
+      100% { transform: scale(9); opacity: 0; }
+    }
+
+    @keyframes smoke-ring {
+      0% { transform: scale(.2); opacity: .9; }
+      100% { transform: scale(1.8) translateY(-35px); opacity: 0; }
+    }
+
+    @keyframes debris-flight {
+      to {
+        transform: translate(var(--debris-x), var(--debris-y)) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    @keyframes confetti-fall {
+      to {
+        transform: translate(var(--confetti-x), 105vh) rotate(1080deg);
+        opacity: .8;
+      }
+    }
+
+    @keyframes scene-shake {
+      20% { transform: translate(-8px, 5px); }
+      40% { transform: translate(9px, -6px); }
+      60% { transform: translate(-6px, 7px); }
+      80% { transform: translate(7px, -4px); }
+    }
+
     @media (max-width: 980px) {
       .layout { grid-template-columns: 1fr; }
       .side-panel {
@@ -510,9 +657,13 @@
 
             <g id="delivery-targets">
               <rect id="target-a1" x="575" y="278" width="70" height="64" rx="3" fill="#aef1b5" fill-opacity=".28" stroke="#27a36a" stroke-width="4" stroke-dasharray="9 7"/>
-              <rect id="target-a2" x="665" y="358" width="70" height="64" rx="3" fill="#aef1b5" fill-opacity=".28" stroke="#27a36a" stroke-width="4" stroke-dasharray="9 7"/>
+              <rect id="target-a2" x="665" y="278" width="70" height="64" rx="3" fill="#aef1b5" fill-opacity=".28" stroke="#27a36a" stroke-width="4" stroke-dasharray="9 7"/>
+              <rect id="target-a3" x="575" y="358" width="70" height="64" rx="3" fill="#aef1b5" fill-opacity=".28" stroke="#27a36a" stroke-width="4" stroke-dasharray="9 7"/>
+              <rect id="target-a4" x="665" y="358" width="70" height="64" rx="3" fill="#aef1b5" fill-opacity=".28" stroke="#27a36a" stroke-width="4" stroke-dasharray="9 7"/>
               <text id="target-label-a1" x="610" y="315" fill="#168252" font-size="15" text-anchor="middle" font-weight="800" stroke="none">A1</text>
-              <text id="target-label-a2" x="700" y="395" fill="#168252" font-size="15" text-anchor="middle" font-weight="800" stroke="none">A2</text>
+              <text id="target-label-a2" x="700" y="315" fill="#168252" font-size="15" text-anchor="middle" font-weight="800" stroke="none">A2</text>
+              <text id="target-label-a3" x="610" y="395" fill="#168252" font-size="15" text-anchor="middle" font-weight="800" stroke="none">A3</text>
+              <text id="target-label-a4" x="700" y="395" fill="#168252" font-size="15" text-anchor="middle" font-weight="800" stroke="none">A4</text>
             </g>
 
             <g id="tower-crane" stroke="#29384a" stroke-linejoin="round">
@@ -575,12 +726,12 @@
 
         <section class="panel controls" aria-label="Crane controls">
           <div class="control-row">
-            <button class="control" type="button" data-action="trolley-in"><span class="key">J</span> Trolley In</button>
-            <button class="control" type="button" data-action="trolley-out"><span class="key">L</span> Trolley Out</button>
+            <button class="control" type="button" data-action="trolley-left"><span class="key">A</span> Trolley Left</button>
+            <button class="control" type="button" data-action="trolley-right"><span class="key">D</span> Trolley Right</button>
           </div>
           <div class="control-row">
-            <button class="control" type="button" data-action="hook-up"><span class="key">I</span> Hook Up</button>
-            <button class="control" type="button" data-action="hook-down"><span class="key">K</span> Hook Down</button>
+            <button class="control" type="button" data-action="hook-up"><span class="key">W</span> Hook Up</button>
+            <button class="control" type="button" data-action="hook-down"><span class="key">S</span> Hook Down</button>
           </div>
           <div class="control-row">
             <button class="control" type="button" data-action="jib-left"><span class="key">←</span> Jib Left</button>
@@ -644,6 +795,18 @@
     </div>
   </main>
 
+  <div class="effect-layer" id="effect-layer" aria-hidden="true"></div>
+  <div class="game-overlay" id="game-overlay" role="dialog" aria-modal="true" aria-labelledby="overlay-title">
+    <div class="overlay-card">
+      <h2 id="overlay-title">Round paused</h2>
+      <p id="overlay-message">Restart the level.</p>
+      <div class="overlay-actions">
+        <button id="overlay-restart" type="button">Restart Level</button>
+        <button id="overlay-primary" type="button">Start Level</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     const app = document.querySelector(".app");
     const toggle = document.querySelector(".theme-toggle");
@@ -675,7 +838,10 @@
       level: 1,
       timeRemaining: 180,
       timerRunning: true,
-      tipTriggered: false
+      tipTriggered: false,
+      collisionCooldown: false,
+      levelActive: false,
+      instructionsSeen: false
     };
 
     const chart = [
@@ -695,6 +861,7 @@
       available: true
     }));
     const deliveredTargets = new Set();
+    const levelTargetIds = ["target-a1", "target-a2", "target-a3", "target-a4"];
 
     const radiusStatus = document.querySelector("#radius-status");
     const chartRadius = document.querySelector("#chart-radius");
@@ -714,6 +881,14 @@
     const timerStatus = document.querySelector("#timer-status");
     const scoreStatus = document.querySelector("#score-status");
     const levelTitle = document.querySelector("#level-title");
+    const secondCrane = document.querySelector("#second-crane");
+    const scene = document.querySelector(".scene");
+    const effectLayer = document.querySelector("#effect-layer");
+    const gameOverlay = document.querySelector("#game-overlay");
+    const overlayTitle = document.querySelector("#overlay-title");
+    const overlayMessage = document.querySelector("#overlay-message");
+    const overlayRestart = document.querySelector("#overlay-restart");
+    const overlayPrimary = document.querySelector("#overlay-primary");
 
     const activeKeys = new Map();
     let animationFrame = null;
@@ -756,8 +931,8 @@
 
       if (percentage >= 1) {
         capacityStatus.className = "warn";
-        craneState.tipTriggered = true;
         showGameMessage("Tip-over limit", "Load reached 100% or more of capacity.", "bad");
+        triggerTipOver();
         return "tip";
       }
 
@@ -777,6 +952,144 @@
     function showGameMessage(title, detail, tone = "") {
       gameMessage.className = `warning${tone ? ` ${tone}` : ""}`;
       gameMessage.innerHTML = `<strong>${title}</strong><br>${detail}`;
+    }
+
+    function showOverlay(title, message) {
+      craneState.timerRunning = false;
+      craneState.levelActive = false;
+      overlayTitle.textContent = title;
+      overlayMessage.textContent = message;
+      overlayRestart.style.display = "";
+      overlayPrimary.style.display = "none";
+      gameOverlay.classList.add("visible");
+      overlayRestart.focus();
+    }
+
+    function hideOverlay() {
+      gameOverlay.classList.remove("visible");
+    }
+
+    function showInstructions() {
+      craneState.timerRunning = false;
+      craneState.levelActive = false;
+      overlayTitle.textContent = "How to Play";
+      overlayMessage.innerHTML =
+        "<strong>A / D</strong> move the trolley left/right<br>" +
+        "<strong>W / S</strong> raise/lower the hook<br>" +
+        "<strong>← / →</strong> swing the jib<br>" +
+        "<strong>Enter</strong> pick up or set down<br><br>" +
+        "Match every load to every marked unload position. At 90% capacity warning appears; at 100% the crane tips.";
+      overlayRestart.style.display = "none";
+      overlayPrimary.style.display = "";
+      overlayPrimary.textContent = "Start Level";
+      overlayPrimary.onclick = startLevel;
+      gameOverlay.classList.add("visible");
+    }
+
+    function showStartScreen() {
+      craneState.timerRunning = false;
+      craneState.levelActive = false;
+      overlayTitle.textContent = `Level ${craneState.level}`;
+      overlayMessage.textContent =
+        `${deliveredTargets.size ? deliveredTargets.size : 0} deliveries completed on this level. Press Start Level when ready.`;
+      overlayRestart.style.display = "none";
+      overlayPrimary.style.display = "";
+      overlayPrimary.textContent = "Start Level";
+      overlayPrimary.onclick = startLevel;
+      gameOverlay.classList.add("visible");
+    }
+
+    function startLevel() {
+      hideOverlay();
+      craneState.timerRunning = true;
+      craneState.levelActive = true;
+      craneState.timeRemaining = 180;
+      updateLevelStatus();
+    }
+
+    function showNextLevelConfirmation() {
+      craneState.timerRunning = false;
+      craneState.levelActive = false;
+      launchConfetti();
+      overlayTitle.textContent = "Level Complete!";
+      overlayMessage.textContent =
+        craneState.level >= 5
+          ? "You passed all five levels."
+          : `You cleared level ${craneState.level}. Continue to level ${craneState.level + 1}?`;
+      overlayRestart.style.display = "none";
+      overlayPrimary.style.display = "";
+      overlayPrimary.textContent =
+        craneState.level >= 5 ? "Play Again" : "Continue to Next Level";
+      overlayPrimary.onclick = () => {
+        hideOverlay();
+        if (craneState.level >= 5) {
+          craneState.level = 1;
+          craneState.score = 0;
+        } else {
+          craneState.level += 1;
+        }
+        resetCurrentLevel();
+        craneState.levelActive = false;
+        craneState.timerRunning = false;
+        showStartScreen();
+      };
+      gameOverlay.classList.add("visible");
+    }
+
+    function createExplosion() {
+      const sceneRect = scene.getBoundingClientRect();
+      const explosion = document.createElement("div");
+      explosion.className = "explosion";
+      explosion.style.left = `${sceneRect.width * 0.5 - 15}px`;
+      explosion.style.top = `${sceneRect.height * 0.42}px`;
+      effectLayer.appendChild(explosion);
+
+      scene.classList.remove("shake");
+      void scene.offsetWidth;
+      scene.classList.add("shake");
+
+      for (let index = 0; index < 28; index++) {
+        const debris = document.createElement("div");
+        debris.className = "debris";
+        const angle = (Math.PI * 2 * index) / 28;
+        const distance = 180 + Math.random() * 220;
+        debris.style.left = `${sceneRect.width * 0.5}px`;
+        debris.style.top = `${sceneRect.height * 0.42}px`;
+        debris.style.setProperty("--debris-x", `${Math.cos(angle) * distance}px`);
+        debris.style.setProperty("--debris-y", `${Math.sin(angle) * distance + 140}px`);
+        debris.style.background = index % 3 === 0 ? "#f15b35" : index % 2 === 0 ? "#ffd21f" : "#596879";
+        effectLayer.appendChild(debris);
+        window.setTimeout(() => debris.remove(), 1600);
+      }
+      window.setTimeout(() => explosion.remove(), 2100);
+    }
+
+    function launchConfetti() {
+      const colors = ["#ffd21f", "#67d2a5", "#ff7a87", "#83a8df", "#ffffff"];
+      for (let index = 0; index < 120; index++) {
+        const piece = document.createElement("div");
+        piece.className = "confetti";
+        piece.style.left = `${Math.random() * 100}vw`;
+        piece.style.background = colors[index % colors.length];
+        piece.style.setProperty("--confetti-x", `${-120 + Math.random() * 240}px`);
+        piece.style.setProperty("--fall-time", `${2.2 + Math.random() * 2.2}s`);
+        effectLayer.appendChild(piece);
+        window.setTimeout(() => piece.remove(), 4500);
+      }
+    }
+
+    function triggerTipOver() {
+      if (craneState.tipTriggered) return;
+      craneState.tipTriggered = true;
+      craneState.timerRunning = false;
+      createExplosion();
+      showGameMessage("Tip-over!", "The crane collapsed at 100% or more of capacity.", "bad");
+      window.setTimeout(() => {
+        resetCurrentLevel();
+        craneState.timerRunning = true;
+        craneState.tipTriggered = false;
+        showGameMessage("Crane reset", "The level has been restored.", "good");
+      }, 1900);
     }
 
     function resetStagedLoad(load) {
@@ -818,8 +1131,10 @@
       craneState.tipTriggered = false;
       craneState.radius = 75;
       craneState.hookY = 326;
+      craneState.levelActive = false;
+      craneState.timerRunning = false;
       deliveredTargets.clear();
-      ["target-a1", "target-a2"].forEach((targetId) => {
+      levelTargetIds.forEach((targetId) => {
         const target = document.querySelector(`#${targetId}`);
         if (!target) return;
         target.removeAttribute("data-delivered-weight");
@@ -829,6 +1144,8 @@
       });
       document.querySelector("#target-label-a1").textContent = "A1";
       document.querySelector("#target-label-a2").textContent = "A2";
+      document.querySelector("#target-label-a3").textContent = "A3";
+      document.querySelector("#target-label-a4").textContent = "A4";
       randomizeStaging();
       updateLevelStatus();
       showGameMessage("Level reset", "The crane and staged loads were restored.");
@@ -836,15 +1153,8 @@
     }
 
     function advanceLevel() {
-      if (deliveredTargets.size < 2) return;
-      if (craneState.level >= 5) {
-        showGameMessage("All levels passed", "The crane challenge is complete.", "good");
-        craneState.timerRunning = false;
-        return;
-      }
-      craneState.level += 1;
-      resetCurrentLevel();
-      showGameMessage("Level passed", `Moving to level ${craneState.level}.`, "good");
+      if (deliveredTargets.size < levelTargetIds.length) return;
+      showNextLevelConfirmation();
     }
 
     function updateCrane() {
@@ -904,21 +1214,23 @@
 
       if (carriedWeight) {
         const hookCenter = getHookCenter();
-        const upperReady =
-          !deliveredTargets.has("target-a1") &&
-          Math.abs(hookCenter - 610) <= 38 &&
-          craneState.hookY >= 278 &&
-          craneState.hookY <= 342;
-        const lowerReady =
-          !deliveredTargets.has("target-a2") &&
-          Math.abs(hookCenter - 700) <= 38 &&
-          craneState.hookY >= 358 &&
-          craneState.hookY <= 422;
-        document.querySelector("#target-a1")?.classList.toggle("drop-ready", upperReady);
-        document.querySelector("#target-a2")?.classList.toggle("drop-ready", lowerReady);
+        [
+          { id: "target-a1", centerX: 610, yMin: 278, yMax: 342 },
+          { id: "target-a2", centerX: 700, yMin: 278, yMax: 342 },
+          { id: "target-a3", centerX: 610, yMin: 358, yMax: 422 },
+          { id: "target-a4", centerX: 700, yMin: 358, yMax: 422 }
+        ].forEach((target) => {
+          const ready =
+            !deliveredTargets.has(target.id) &&
+            Math.abs(hookCenter - target.centerX) <= 38 &&
+            craneState.hookY >= target.yMin &&
+            craneState.hookY <= target.yMax;
+          document.querySelector(`#${target.id}`)?.classList.toggle("drop-ready", ready);
+        });
       } else {
-        document.querySelector("#target-a1")?.classList.remove("drop-ready");
-        document.querySelector("#target-a2")?.classList.remove("drop-ready");
+        levelTargetIds.forEach((targetId) =>
+          document.querySelector(`#${targetId}`)?.classList.remove("drop-ready")
+        );
       }
 
       const row = currentChartRow();
@@ -936,13 +1248,14 @@
     }
 
     function applyAction(action, amount) {
+      if (!craneState.levelActive) return;
       switch (action) {
-        case "trolley-in":
+        case "trolley-left":
           craneState.radius = craneState.jibFacing < 0
             ? Math.min(150, craneState.radius + amount)
             : Math.max(50, craneState.radius - amount);
           break;
-        case "trolley-out":
+        case "trolley-right":
           craneState.radius = craneState.jibFacing < 0
             ? Math.max(50, craneState.radius - amount)
             : Math.min(150, craneState.radius + amount);
@@ -1021,6 +1334,7 @@
     }
 
     function handlePickSet() {
+      if (!craneState.levelActive) return;
       const hookCenter = getHookCenter();
 
       if (!craneState.carrying) {
@@ -1052,7 +1366,9 @@
       const load = craneState.carrying;
       const targets = [
         { id: "target-a1", labelId: "A1", centerX: 610, yMin: 278, yMax: 342 },
-        { id: "target-a2", labelId: "A2", centerX: 700, yMin: 358, yMax: 422 }
+        { id: "target-a2", labelId: "A2", centerX: 700, yMin: 278, yMax: 342 },
+        { id: "target-a3", labelId: "A3", centerX: 610, yMin: 358, yMax: 422 },
+        { id: "target-a4", labelId: "A4", centerX: 700, yMin: 358, yMax: 422 }
       ];
       const target = targets.find((item) =>
         !deliveredTargets.has(item.id) &&
@@ -1072,9 +1388,7 @@
       deliveredTargets.add(target.id);
       updateDeliveredTarget(target.id, load.weight);
       craneState.score += load.weight;
-      const targetLabel = document.querySelector(
-        target.labelId === "A1" ? "#target-label-a1" : "#target-label-a2"
-      );
+      const targetLabel = document.querySelector(`#target-label-${target.id.slice(-2)}`);
       if (targetLabel) targetLabel.textContent = `${load.weight.toLocaleString()} lb`;
       craneState.carrying = null;
       showGameMessage("Load delivered", `${load.weight.toLocaleString()} lb placed at ${target.labelId}.`, "good");
@@ -1084,10 +1398,10 @@
     }
 
     const keyActions = {
-      j: "trolley-in",
-      l: "trolley-out",
-      i: "hook-up",
-      k: "hook-down",
+      a: "trolley-left",
+      d: "trolley-right",
+      w: "hook-up",
+      s: "hook-down",
       ArrowLeft: "jib-left",
       ArrowRight: "jib-right",
       Enter: "pick-set"
@@ -1138,9 +1452,41 @@
       stopAction(action);
     });
 
+    overlayRestart.addEventListener("click", () => {
+      hideOverlay();
+      resetCurrentLevel();
+      craneState.timerRunning = true;
+    });
+
+    let secondCranePhase = 0;
+    function updateSecondCrane(timestamp) {
+      secondCranePhase += 0.012;
+      const x = Math.sin(secondCranePhase) * 45;
+      secondCrane.setAttribute("transform", `translate(${x} 0)`);
+
+      if (!craneState.collisionCooldown) {
+        const hookCenter = getHookCenter();
+        const secondCraneCenter = 795 + x;
+        if (craneState.hookY > 248 &&
+            craneState.hookY < 430 &&
+            Math.abs(hookCenter - secondCraneCenter) < 42) {
+          craneState.collisionCooldown = true;
+          craneState.timerRunning = false;
+          showGameMessage("Collision!", "Avoid the computer-controlled crane.", "bad");
+          window.setTimeout(() => {
+            resetCurrentLevel();
+            craneState.collisionCooldown = false;
+            craneState.timerRunning = true;
+            showGameMessage("Clear for takeoff", "Collision reset complete.", "good");
+          }, 900);
+        }
+      }
+    }
+
     randomizeStaging();
     updateLevelStatus();
     updateCrane();
+    showInstructions();
     window.setInterval(() => {
       if (craneState.timerRunning) {
         craneState.timeRemaining = Math.max(0, craneState.timeRemaining - 1);
@@ -1148,8 +1494,10 @@
         if (craneState.timeRemaining === 0) {
           craneState.timerRunning = false;
           showGameMessage("Time expired", "Restart this level to try again.", "bad");
+          showOverlay("Time expired", "Restart this level and try again.");
         }
       }
+      updateSecondCrane();
       updateCrane();
     }, 1000);
   </script>
