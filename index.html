@@ -424,7 +424,7 @@
     <header class="topbar">
       <div class="title">
         <h1>Tower Crane Challenge</h1>
-        <span>Level 1 / 5</span>
+        <span id="level-title">Level 1 / 5</span>
       </div>
       <button class="theme-toggle" type="button" aria-label="Switch theme">
         <span class="sun" aria-hidden="true">☀</span>
@@ -437,11 +437,11 @@
         <div class="statusbar" aria-label="Game status">
           <div class="status">
             <label>Timer</label>
-            <strong>03:00</strong>
+            <strong id="timer-status">03:00</strong>
           </div>
           <div class="status">
             <label>Score</label>
-            <strong>0 pts</strong>
+            <strong id="score-status">0 pts</strong>
           </div>
           <div class="status">
             <label>Load</label>
@@ -670,7 +670,12 @@
       turnAngle: 0,
       turnTarget: 0,
       carrying: null,
-      windPhase: 0
+      windPhase: 0,
+      score: 0,
+      level: 1,
+      timeRemaining: 180,
+      timerRunning: true,
+      tipTriggered: false
     };
 
     const chart = [
@@ -706,6 +711,9 @@
     const craneTop = document.querySelector("#crane-top");
     const loadStatus = document.querySelector("#load-status");
     const gameMessage = document.querySelector("#game-message");
+    const timerStatus = document.querySelector("#timer-status");
+    const scoreStatus = document.querySelector("#score-status");
+    const levelTitle = document.querySelector("#level-title");
 
     const activeKeys = new Map();
     let animationFrame = null;
@@ -717,6 +725,53 @@
 
     function setSvgAttribute(element, attribute, value) {
       element.setAttribute(attribute, String(value));
+    }
+
+    function formatTimer(seconds) {
+      const minutes = Math.floor(seconds / 60);
+      const remainder = seconds % 60;
+      return `${String(minutes).padStart(2, "0")}:${String(remainder).padStart(2, "0")}`;
+    }
+
+    function updateLevelStatus() {
+      levelTitle.textContent = `Level ${craneState.level} / 5`;
+      timerStatus.textContent = formatTimer(craneState.timeRemaining);
+      scoreStatus.textContent = `${craneState.score.toLocaleString()} pts`;
+      document.querySelectorAll(".level-dot").forEach((dot, index) => {
+        dot.classList.toggle("active", index === craneState.level - 1);
+      });
+    }
+
+    function evaluateLoadSafety() {
+      const row = currentChartRow();
+      const loadWeight = craneState.carrying ? craneState.carrying.weight : 0;
+      if (!loadWeight) {
+        capacityStatus.textContent = "No load";
+        capacityStatus.className = "";
+        return "safe";
+      }
+
+      const percentage = loadWeight / row.capacity;
+      capacityStatus.textContent = `${Math.round(percentage * 100)}% safe`;
+
+      if (percentage >= 1) {
+        capacityStatus.className = "warn";
+        craneState.tipTriggered = true;
+        showGameMessage("Tip-over limit", "Load reached 100% or more of capacity.", "bad");
+        return "tip";
+      }
+
+      if (percentage >= 0.9) {
+        capacityStatus.className = "warn";
+        showGameMessage("Warning", "Load reached 90% of capacity.", "bad");
+        return "warning";
+      }
+
+      capacityStatus.className = "";
+      if (!gameMessage.classList.contains("good")) {
+        showGameMessage("Crane safe", "Wind: light from the east");
+      }
+      return "safe";
     }
 
     function showGameMessage(title, detail, tone = "") {
@@ -755,6 +810,41 @@
       target.setAttribute("fill", "#67d2a5");
       target.setAttribute("fill-opacity", ".75");
       target.dataset.deliveredWeight = String(weight);
+    }
+
+    function resetCurrentLevel() {
+      craneState.carrying = null;
+      craneState.timeRemaining = 180;
+      craneState.tipTriggered = false;
+      craneState.radius = 75;
+      craneState.hookY = 326;
+      deliveredTargets.clear();
+      ["target-a1", "target-a2"].forEach((targetId) => {
+        const target = document.querySelector(`#${targetId}`);
+        if (!target) return;
+        target.removeAttribute("data-delivered-weight");
+        target.setAttribute("fill", "#aef1b5");
+        target.setAttribute("fill-opacity", ".28");
+        target.classList.remove("drop-ready");
+      });
+      document.querySelector("#target-label-a1").textContent = "A1";
+      document.querySelector("#target-label-a2").textContent = "A2";
+      randomizeStaging();
+      updateLevelStatus();
+      showGameMessage("Level reset", "The crane and staged loads were restored.");
+      updateCrane();
+    }
+
+    function advanceLevel() {
+      if (deliveredTargets.size < 2) return;
+      if (craneState.level >= 5) {
+        showGameMessage("All levels passed", "The crane challenge is complete.", "good");
+        craneState.timerRunning = false;
+        return;
+      }
+      craneState.level += 1;
+      resetCurrentLevel();
+      showGameMessage("Level passed", `Moving to level ${craneState.level}.`, "good");
     }
 
     function updateCrane() {
@@ -835,10 +925,7 @@
       radiusStatus.textContent = `${Math.round(craneState.radius)} ft`;
       chartRadius.textContent = `Current: ${Math.round(craneState.radius)} ft`;
       chartCapacity.textContent = `${row.capacity.toLocaleString()} lb`;
-      capacityStatus.textContent = carriedWeight
-        ? `${Math.round((carriedWeight / row.capacity) * 100)}% safe`
-        : "No load";
-      capacityStatus.className = currentChartRow().capacity === 5500 ? "warn" : "";
+      evaluateLoadSafety();
 
       document.querySelectorAll(".load-table tbody tr").forEach((tableRow) => {
         tableRow.classList.toggle(
@@ -984,6 +1071,7 @@
 
       deliveredTargets.add(target.id);
       updateDeliveredTarget(target.id, load.weight);
+      craneState.score += load.weight;
       const targetLabel = document.querySelector(
         target.labelId === "A1" ? "#target-label-a1" : "#target-label-a2"
       );
@@ -991,6 +1079,8 @@
       craneState.carrying = null;
       showGameMessage("Load delivered", `${load.weight.toLocaleString()} lb placed at ${target.labelId}.`, "good");
       updateCrane();
+      updateLevelStatus();
+      advanceLevel();
     }
 
     const keyActions = {
@@ -1049,8 +1139,19 @@
     });
 
     randomizeStaging();
+    updateLevelStatus();
     updateCrane();
-    window.setInterval(() => updateCrane(), 50);
+    window.setInterval(() => {
+      if (craneState.timerRunning) {
+        craneState.timeRemaining = Math.max(0, craneState.timeRemaining - 1);
+        updateLevelStatus();
+        if (craneState.timeRemaining === 0) {
+          craneState.timerRunning = false;
+          showGameMessage("Time expired", "Restart this level to try again.", "bad");
+        }
+      }
+      updateCrane();
+    }, 1000);
   </script>
 </body>
 </html>

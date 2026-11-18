@@ -35,3 +35,5 @@
 - 2026-11-18: Make J always move the trolley left and L always move it right, regardless of crane facing. Worked.
 - 2026-11-18: Tier the building into upper and lower unload levels and illuminate exact target borders while drop-off is valid. Worked.
 - 2026-11-18: Commit the Phase 3 load mechanics and tiered building unload-zone updates. Worked.
+- 2026-11-18: Start Phase 4 with live timer, point-per-pound scoring, conservative chart safety, 90% warning, 100% tip state, and level progression. Worked.
+- 2026-11-18: Commit the Phase 4 timer, scoring, load-chart safety, and level progression implementation. Worked.
