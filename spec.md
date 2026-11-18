@@ -12,7 +12,18 @@ Players operate a tower crane in a side view, moving loads from a staging area t
 - **Right Arrow:** swing the jib right
 - **Space:** pick up a load or set a carried load on a matching building position
 
+The keyboard controls must remain visible on screen at all times during play, in a persistent control panel or footer that is not hidden behind menus or overlays.
+
+On mobile and touch devices, provide large on-screen buttons that mirror every keyboard control:
+- Trolley inward and outward
+- Hook raise and lower
+- Jib swing left and right
+- Pick up or set down
+
+The touch controls must remain visible with the crane controls during play, provide clear pressed states, and support press-and-hold operation for continuous trolley, hook, and jib movement.
+
 The crane has a tower, jib, trolley, cable, hook, and suspended-load indicator in a playful yellow construction setting.
+The game also includes a computer-controlled second crane. The player must avoid collision between the crane components and suspended loads. The second crane follows a visible, predictable operating path.
 
 ## Calculations
 The app calculates crane radius as the horizontal distance from the tower center to the suspended load or hook. A radius is compared against this example load chart:
@@ -28,15 +39,28 @@ The app calculates crane radius as the horizontal distance from the tower center
 For radii between table values, use the capacity at the next larger table radius. This is the conservative "round up" radius rule. For example, 62 ft uses the 75 ft capacity of 13,000 lb, and 138 ft uses the 150 ft capacity of 5,500 lb.
 
 The capacity check uses the weight of the currently suspended load. The crane is not overweight below 100% of the allowed capacity. It warns exactly at 90% of capacity and tips at 100% or more.
+The crane cannot operate outside the 50–150 ft radius range; these values act as hard movement limits.
 
 ## Outputs
 A warning appears when the suspended load is exactly 90% of the capacity at the current radius. Crossing that threshold is also shown clearly as a caution state.
 
-A dramatic crane tip-over occurs when the load reaches or exceeds 100% of capacity. The animation ends with an on-screen recovery/reset action; the player may reset the crane and continue the round.
+The game screen must show the complete example load table at all times during play. Display every radius and capacity row:
+
+| Radius (ft) | Capacity (lb) |
+|---|---:|
+| 50 | 20,000 |
+| 75 | 13,000 |
+| 100 | 9,000 |
+| 125 | 7,000 |
+| 150 | 5,500 |
+
+The table must remain visible beside or below the crane scene, not hidden behind a menu. Mark the current radius and its looked-up capacity on or beside the table while play is active.
+
+A dramatic crane tip-over occurs when the load reaches or exceeds 100% of capacity. After the explosion and tip-over animation, the app automatically resets the current level to its starting crane position and starting load layout. Previously delivered loads on that level are also reset.
 
 Each round includes:
-- A 3-minute countdown timer
-- A current score
+- A 3-minute countdown timer that resets for each level
+- A current score of 1 point per pound delivered
 - The current load weight
 - The current radius
 - Current chart capacity and safety percentage
@@ -51,7 +75,14 @@ The game has a light mode and a dark mode. It includes a visible theme toggle so
 
 When the crane falls, show a huge, dramatic explosion with expanding fire and smoke effects, debris, and screen shake. When the player passes a level, celebrate with confetti that bursts across the screen.
 
-Preset load weights appear in a randomized mix at the staging area. Wind varies by level and makes a suspended load swing. Loads are picked up by positioning the hook above a staging load and pressing Space. A load is delivered by positioning it over a matching marked position and pressing Space.
+Preset load weights of 4,000, 6,000, 8,000, and 10,000 lb appear in a randomized mix at the staging area. Delivered loads remain at their target positions. Undelivered loads or loads returned after an invalid placement use the staging conveyor.
+
+Wind varies by level and makes a suspended load swing like a pendulum in the horizontal plane.
+Loads are picked up by positioning the hook above a staging load and pressing Space. A load is delivered by precisely positioning it within the matching labeled location on the building outline and pressing Space.
+
+The player must deliver a load to every marked position to pass a level. Pressing Space at an incorrect position or dropping a load outside a marked position returns the load to the staging conveyor. The level timer continues until every position is filled or time expires.
+
+A level is passed after every marked position is filled. The app stops play briefly, shows confetti across the screen, and advances to the next level layout.
 
 ## Validation
 Use the conservative next-larger-radius rule for all radii:
@@ -63,9 +94,13 @@ Use the conservative next-larger-radius rule for all radii:
 Implement and test boundary behavior at 89.9%, 90%, 99.9%, and 100% of capacity. Verify the app does not warn below 90%, warns at exactly 90%, does not tip below 100%, and tips at 100% or above.
 
 Also test delivery scoring and both pickup/setdown states:
-- A delivered load awards points based on its weight.
-- The round ends when the timer reaches zero.
-- A load can only be set down on a matching level position.
+- A delivered load awards 1 point per pound of load weight.
+- If a level timer reaches zero, end the level and offer a retry or restart action.
+- A load can only be set down in its precisely matching level position.
+- An incorrect target or dropped outside a target returns the load to the staging conveyor.
+- Resetting after tip-over restores the current level's initial crane and load layout.
+- Check that every marked position must be filled before the level is passed and confetti appears.
+- Check that the computer-controlled second crane moves predictably and collides are detected.
 - Warning and tip calculations update immediately as radius or suspended-load weight changes.
 
 ## Out of scope
