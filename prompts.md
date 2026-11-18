@@ -42,5 +42,9 @@
 - 2026-11-18: Commit the WASD controls and start, instruction, and next-level flow refinement. Worked.
 - 2026-11-18: Validate the conservative capacity calculations at 62 ft, 125 ft, and 138 ft, document warning/tip boundaries, and add staged-load chart checks. Worked.
 - 2026-11-18: Commit the completed capacity validation work. Worked.
+- 2026-11-18: Fix tip-over and retry reset state so the timer and crane controls resume after a level resets. Worked.
+- 2026-11-18: Reduce each level to exactly two staged loads and two unload positions before advancing. Worked.
+- 2026-11-18: Align the spec and capacity-validation staged-load list with the two-load level format. Worked.
+- 2026-11-18: Commit the two-load, two-target level requirement and application updates. Worked.
 - 2026-11-18: Fix the final page by removing a duplicate levelTitle JavaScript declaration that prevented Phase 5 from running. Worked.
 - 2026-11-18: Commit the Phase 4 timer, scoring, load-chart safety, and level progression implementation. Worked.

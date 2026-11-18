@@ -31,13 +31,11 @@ For each of the three calculations, the app should be tested at:
 
 ## Staged-load checks
 
-The available loads are 4,000 lb, 6,000 lb, 8,000 lb, and 10,000 lb.
+The available staged loads are 4,000 lb and 6,000 lb.
 
 | Load | At 50 ft | At 75 ft | At 100 ft | At 125 ft | At 150 ft |
 |---|---|---|---|---|---|
 | 4,000 lb | 20% safe | 31% safe | 44% safe | 57% safe | 73% safe |
 | 6,000 lb | 30% safe | 46% safe | 67% safe | 86% safe | 109%: tip |
-| 8,000 lb | 40% safe | 62% safe | 89% safe | 114%: tip | 145%: tip |
-| 10,000 lb | 50% safe | 77% safe | 111%: tip | 143%: tip | 182%: tip |
 
 The staged-load table confirms that all preset weights remain below capacity at some radii and cross warning/tip thresholds at others.

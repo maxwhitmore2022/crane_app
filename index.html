@@ -657,13 +657,9 @@
 
             <g id="delivery-targets">
               <rect id="target-a1" x="575" y="278" width="70" height="64" rx="3" fill="#aef1b5" fill-opacity=".28" stroke="#27a36a" stroke-width="4" stroke-dasharray="9 7"/>
-              <rect id="target-a2" x="665" y="278" width="70" height="64" rx="3" fill="#aef1b5" fill-opacity=".28" stroke="#27a36a" stroke-width="4" stroke-dasharray="9 7"/>
-              <rect id="target-a3" x="575" y="358" width="70" height="64" rx="3" fill="#aef1b5" fill-opacity=".28" stroke="#27a36a" stroke-width="4" stroke-dasharray="9 7"/>
-              <rect id="target-a4" x="665" y="358" width="70" height="64" rx="3" fill="#aef1b5" fill-opacity=".28" stroke="#27a36a" stroke-width="4" stroke-dasharray="9 7"/>
+              <rect id="target-a2" x="665" y="358" width="70" height="64" rx="3" fill="#aef1b5" fill-opacity=".28" stroke="#27a36a" stroke-width="4" stroke-dasharray="9 7"/>
               <text id="target-label-a1" x="610" y="315" fill="#168252" font-size="15" text-anchor="middle" font-weight="800" stroke="none">A1</text>
-              <text id="target-label-a2" x="700" y="315" fill="#168252" font-size="15" text-anchor="middle" font-weight="800" stroke="none">A2</text>
-              <text id="target-label-a3" x="610" y="395" fill="#168252" font-size="15" text-anchor="middle" font-weight="800" stroke="none">A3</text>
-              <text id="target-label-a4" x="700" y="395" fill="#168252" font-size="15" text-anchor="middle" font-weight="800" stroke="none">A4</text>
+              <text id="target-label-a2" x="700" y="395" fill="#168252" font-size="15" text-anchor="middle" font-weight="800" stroke="none">A2</text>
             </g>
 
             <g id="tower-crane" stroke="#29384a" stroke-linejoin="round">
@@ -710,14 +706,6 @@
               <g id="staged-load-1" data-weight="6000" transform="translate(180 356)">
                 <rect width="58" height="34" rx="4" fill="#e4edf4" stroke="#596879" stroke-width="4"/>
                 <text x="29" y="22" fill="#26384b" font-size="12" text-anchor="middle" font-weight="900" stroke="none">6,000 lb</text>
-              </g>
-              <g id="staged-load-2" data-weight="8000" transform="translate(243 356)">
-                <rect width="58" height="34" rx="4" fill="#e4edf4" stroke="#596879" stroke-width="4"/>
-                <text x="29" y="22" fill="#26384b" font-size="12" text-anchor="middle" font-weight="900" stroke="none">8,000 lb</text>
-              </g>
-              <g id="staged-load-3" data-weight="10000" transform="translate(306 356)">
-                <rect width="58" height="34" rx="4" fill="#e4edf4" stroke="#596879" stroke-width="4"/>
-                <text x="29" y="22" fill="#26384b" font-size="12" text-anchor="middle" font-weight="900" stroke="none">10,000 lb</text>
               </g>
               <text x="250" y="452" fill="#26384b" font-size="13" text-anchor="middle" font-weight="900" stroke="none">STAGING</text>
             </g>
@@ -852,8 +840,8 @@
       { radius: 150, capacity: 5500 }
     ];
 
-    const stagedWeights = [4000, 6000, 8000, 10000];
-    const stagedPositions = [146, 209, 272, 335];
+    const stagedWeights = [4000, 6000];
+    const stagedPositions = [146, 209];
     const stagedLoads = stagedWeights.map((weight, index) => ({
       id: `staged-load-${index}`,
       weight,
@@ -861,7 +849,7 @@
       available: true
     }));
     const deliveredTargets = new Set();
-    const levelTargetIds = ["target-a1", "target-a2", "target-a3", "target-a4"];
+    const levelTargetIds = ["target-a1", "target-a2"];
 
     const radiusStatus = document.querySelector("#radius-status");
     const chartRadius = document.querySelector("#chart-radius");
@@ -1086,8 +1074,6 @@
       showGameMessage("Tip-over!", "The crane collapsed at 100% or more of capacity.", "bad");
       window.setTimeout(() => {
         resetCurrentLevel();
-        craneState.timerRunning = true;
-        craneState.tipTriggered = false;
         showGameMessage("Crane reset", "The level has been restored.", "good");
       }, 1900);
     }
@@ -1131,8 +1117,12 @@
       craneState.tipTriggered = false;
       craneState.radius = 75;
       craneState.hookY = 326;
-      craneState.levelActive = false;
-      craneState.timerRunning = false;
+      craneState.jibFacing = 1;
+      craneState.turnAngle = 0;
+      craneState.turnTarget = 0;
+      craneState.levelActive = true;
+      craneState.timerRunning = true;
+      activeKeys.clear();
       deliveredTargets.clear();
       levelTargetIds.forEach((targetId) => {
         const target = document.querySelector(`#${targetId}`);
@@ -1144,8 +1134,6 @@
       });
       document.querySelector("#target-label-a1").textContent = "A1";
       document.querySelector("#target-label-a2").textContent = "A2";
-      document.querySelector("#target-label-a3").textContent = "A3";
-      document.querySelector("#target-label-a4").textContent = "A4";
       randomizeStaging();
       updateLevelStatus();
       showGameMessage("Level reset", "The crane and staged loads were restored.");
@@ -1216,9 +1204,7 @@
         const hookCenter = getHookCenter();
         [
           { id: "target-a1", centerX: 610, yMin: 278, yMax: 342 },
-          { id: "target-a2", centerX: 700, yMin: 278, yMax: 342 },
-          { id: "target-a3", centerX: 610, yMin: 358, yMax: 422 },
-          { id: "target-a4", centerX: 700, yMin: 358, yMax: 422 }
+          { id: "target-a2", centerX: 700, yMin: 358, yMax: 422 }
         ].forEach((target) => {
           const ready =
             !deliveredTargets.has(target.id) &&
@@ -1366,9 +1352,7 @@
       const load = craneState.carrying;
       const targets = [
         { id: "target-a1", labelId: "A1", centerX: 610, yMin: 278, yMax: 342 },
-        { id: "target-a2", labelId: "A2", centerX: 700, yMin: 278, yMax: 342 },
-        { id: "target-a3", labelId: "A3", centerX: 610, yMin: 358, yMax: 422 },
-        { id: "target-a4", labelId: "A4", centerX: 700, yMin: 358, yMax: 422 }
+        { id: "target-a2", labelId: "A2", centerX: 700, yMin: 358, yMax: 422 }
       ];
       const target = targets.find((item) =>
         !deliveredTargets.has(item.id) &&
@@ -1455,7 +1439,6 @@
     overlayRestart.addEventListener("click", () => {
       hideOverlay();
       resetCurrentLevel();
-      craneState.timerRunning = true;
     });
 
     let secondCranePhase = 0;

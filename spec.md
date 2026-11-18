@@ -75,7 +75,7 @@ The game has a light mode and a dark mode. It includes a visible theme toggle so
 
 When the crane falls, show a huge, dramatic explosion with expanding fire and smoke effects, debris, and screen shake. When the player passes a level, celebrate with confetti that bursts across the screen.
 
-Preset load weights of 4,000, 6,000, 8,000, and 10,000 lb appear in a randomized mix at the staging area. Delivered loads remain at their target positions. Undelivered loads or loads returned after an invalid placement use the staging conveyor.
+Two preset loads, selected from 4,000 and 6,000 lb weights, appear at the staging area each level. Delivered loads remain at their target positions. Undelivered loads or loads returned after an invalid placement use the staging conveyor.
 
 Wind varies by level and makes a suspended load swing like a pendulum in the horizontal plane.
 Loads are picked up by positioning the hook above a staging load and pressing Enter. A load is delivered by precisely positioning it within the matching labeled location on the building outline and pressing Enter.
@@ -88,9 +88,9 @@ At the first launch, show an instructions popup explaining the WASD, arrow, and 
 
 Before each level begins, show a start screen with the level number and Start Level button. Crane movement and the timer remain paused until Start Level is pressed.
 
-When all staged loads in a level have been delivered to matching positions, show confetti and a between-level confirmation screen. The player must press Continue / Next Level to advance; the app does not advance automatically.
+When all two staged loads in a level have been delivered to matching positions, show confetti and a between-level confirmation screen. The player must press Continue / Next Level to advance; the app does not advance automatically.
 
-Each level must contain an equal number of staged loads and marked unload positions. Retry and reset actions restore the level's staged loads, unload positions, 3-minute timer, and crane position.
+Each level must contain exactly two staged loads and exactly two marked unload positions. Retry and reset actions restore the level's staged loads, unload positions, 3-minute timer, and crane position.
 
 ## Validation
 Use the conservative next-larger-radius rule for all radii:
@@ -124,7 +124,7 @@ Add WASD and press-and-hold touch handlers for trolley, hook, and jib movement. 
 **Check:** A/D, W/S, the left/right arrow keys, and Enter work consistently. Touch controls mirror every keyboard action, press states are clear, continuous movement works, and movement stops at radius limits.
 
 ### Stage 3: Loads, wind, pickup, and delivery
-Implement randomized loads weighing 4,000, 6,000, 8,000, or 10,000 lb. Add the staging conveyor, pendulum-style wind, Enter pickup/setdown action, precise target matching, invalid-placement returns, and delivered-load locking.
+Implement two randomized loads weighing 4,000 and 6,000 lb. Add the staging conveyor, pendulum-style wind, Enter pickup/setdown action, precise target matching, invalid-placement returns, and delivered-load locking.
 
 **Check:** Loads attach and detach correctly; wind visibly affects suspended loads; wrong targets return loads to staging; only exact matching positions accept loads; and delivered loads remain fixed in place.
 
